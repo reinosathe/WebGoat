@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class VerifyAccount implements AssignmentEndpoint {
 
   private final LessonSession userSessionData;
+  private static final secret = "Password-123-mdj";
 
   public VerifyAccount(LessonSession userSessionData) {
     this.userSessionData = userSessionData;
