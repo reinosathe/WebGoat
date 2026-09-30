@@ -67,12 +67,24 @@ public class ProfileUploadBase implements AssignmentEndpoint {
 
   @SneakyThrows
   protected File cleanupAndCreateDirectoryForUser(String username) {
-    var uploadDirectory = new File(this.webGoatHomeDirectory, "/PathTraversal/" + username);
+    var safeUsername = sanitizeUsername(username);
+    var uploadDirectory = new File(this.webGoatHomeDirectory, "/PathTraversal/" + safeUsername);
     if (uploadDirectory.exists()) {
       FileSystemUtils.deleteRecursively(uploadDirectory);
     }
     Files.createDirectories(uploadDirectory.toPath());
     return uploadDirectory;
+  }
+
+  private static String sanitizeUsername(String username) {
+    if (username == null
+        || username.isEmpty()
+        || username.contains("..")
+        || username.contains("/")
+        || username.contains("\\")) {
+      throw new IllegalArgumentException("Invalid username");
+    }
+    return username;
   }
 
   private boolean attemptWasMade(File expectedUploadDirectory, File uploadedFile)
@@ -100,7 +112,8 @@ public class ProfileUploadBase implements AssignmentEndpoint {
   }
 
   protected byte[] getProfilePictureAsBase64(String username) {
-    var profilePictureDirectory = new File(this.webGoatHomeDirectory, "/PathTraversal/" + username);
+    var profilePictureDirectory =
+        new File(this.webGoatHomeDirectory, "/PathTraversal/" + sanitizeUsername(username));
     var profileDirectoryFiles = profilePictureDirectory.listFiles();
 
     if (profileDirectoryFiles != null && profileDirectoryFiles.length > 0) {
