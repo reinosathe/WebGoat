@@ -1,4 +1,17 @@
 name: "Main / Pull requests build"
+
+env:
+  acapi_token: ${{secrets.ACAPI_TOKEN}}
+# ArmorCode env
+  armorcodehost: https://eu.armorcode.com
+  product: webgoat
+  subProduct: webgoat
+  environment: Staging
+  token: ${{secrets.ARMORCODE_TOKEN}}
+  buildTool: GITHUB_ACTIONS
+  buildNumber: ${{github.run_number}}
+  end: 30
+  
 on:
     pull_request:
         paths-ignore:
@@ -45,3 +58,7 @@ jobs:
                     cache: 'maven'
             -   name: Build with Maven
                 run: mvn --no-transfer-progress verify
+             # ArmorCode build gate
+            - run: |
+                  wget https://eu.armorcode.com/static/scripts/slastatus.sh
+                  sh slastatus.sh
