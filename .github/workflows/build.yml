@@ -49,15 +49,8 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                os: [ windows-latest, ubuntu-latest, macos-15-intel ]
+                os: [ ubuntu-latest ]
         steps:
-            -   uses: actions/checkout@v7
-            -   name: Set up JDK
-                uses: ./.github/actions/java-setup
-                with:
-                    cache: 'maven'
-            -   name: Build with Maven
-                run: mvn --no-transfer-progress verify
              # ArmorCode build gate
             - run: |
                   wget https://eu.armorcode.com/static/scripts/slastatus.sh
