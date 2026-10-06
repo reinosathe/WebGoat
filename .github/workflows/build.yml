@@ -8,6 +8,7 @@ env:
   subProduct: webgoat
   environment: Production
   token: ${{secrets.ARMORCODE_TOKEN}}
+  fetch_token: ${{secrets.FETCH_TRIGGER}}
   buildTool: GITHUB_ACTIONS
   buildNumber: ${{github.run_number}}
   end: 30
@@ -31,6 +32,13 @@ jobs:
             matrix:
                 os: [ ubuntu-latest ]
         steps:
+             # trigger results fetch
+            - run: |
+                  curl --header "Content-Type: application/json" \
+                       -H "Authorization: Bearer $fetch_token" \
+                      --request POST \
+                      --data '{"product":"webgoat","subproduct":"webgoat","engagementId":null,"env":"Production","toolConfigId":2703243}' \
+                      https://eu.armorcode.com/user/tools/generic/import/?toolName=Dependabot
              # ArmorCode build gate
             - run: |
                   wget https://eu.armorcode.com/static/scripts/slastatus.sh
