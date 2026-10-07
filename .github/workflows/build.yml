@@ -11,7 +11,7 @@ env:
   fetch_token: ${{secrets.FETCH_TRIGGER}}
   buildTool: GITHUB_ACTIONS
   buildNumber: ${{github.run_number}}
-  end: 30
+  end: 6
   
 on:
     pull_request:
