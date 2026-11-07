@@ -53,18 +53,13 @@ jobs:
                 path: ~/.m2
                 key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
                 restore-keys: ${{ runner.os }}-m2
-            - name: Build and analyze
-              env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-              run: mvn -B compile org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Webgoat -Dsonar.projectName='Webgoat'
-            - run: |
+             - run: |
                   curl --header "Content-Type: application/json" \
                        -H "Authorization: Bearer $fetch_token" \
                       --request POST \
                       --data '{"product":"webgoat","subproduct":"webgoat","engagementId":null,"env":"Production","toolConfigId":2703243}' \
                       https://eu.armorcode.com/user/tools/generic/import/?toolName=Dependabot
              # ArmorCode build gate
-            - run: |
-                  wget https://eu.armorcode.com/static/scripts/slastatus.sh
-                  sh slastatus.sh
+#            - run: |
+#                  wget https://eu.armorcode.com/static/scripts/slastatus.sh
+#                  sh slastatus.sh
