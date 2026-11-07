@@ -59,7 +59,3 @@ jobs:
                       --request POST \
                       --data '{"product":"webgoat","subproduct":"webgoat","engagementId":null,"env":"Production","toolConfigId":2703243}' \
                       https://eu.armorcode.com/user/tools/generic/import/?toolName=Dependabot
-             # ArmorCode build gate
-#            - run: |
-#                  wget https://eu.armorcode.com/static/scripts/slastatus.sh
-#                  sh slastatus.sh
