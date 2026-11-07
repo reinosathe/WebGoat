@@ -12,6 +12,7 @@ public class AccountVerificationHelper {
 
   // simulating database storage of verification credentials
   private static final Integer verifyUserId = 1223445;
+  private static final String password = "Secret-123";
   private static final Map<String, String> userSecQuestions = new HashMap<>();
 
   static {
